@@ -25,7 +25,7 @@ void protected_write_io(volatile uint8_t &reg, uint8_t value) {            // Wa
 /*================ System Initialization ================*/
 void setup() {
 
-
+mainscreenflag=1;
   // Clear all reset flags
   RSTCTRL.RSTFR = RSTCTRL_WDRF_bm; // Clear watchdog reset flag only
 

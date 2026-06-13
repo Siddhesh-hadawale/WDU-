@@ -1778,14 +1778,14 @@ void buttonClass:: back_screen()
             // -------- SAFETY TEMPERATURE SETTINGS --------
             case SafteyTemperatureSettings:
                 EEPROM.get(SAFETY_TEMP, Heatersafteytemp);
-                screen = ServiceMenuScreen4;
+                screen = ServiceMenuScreen5;
                 servicemenu = 1;
             break;
 
             // -------- PROBE CALIBRATION SETTINGS --------
             case ProbeCalibrationSettings:
                 EEPROM.get(PROBE_ERROR, temp_error);
-                screen = ServiceMenuScreen5;
+                screen = ServiceMenuScreen6;
                 servicemenu = 1;
             break;
 
@@ -1801,7 +1801,7 @@ void buttonClass:: back_screen()
 
             case TimeFactorSettings:
                 EEPROM.get(SECONDARY_FILL_TIME, sfill_time);
-                screen = ServiceMenuScreen6;
+                screen = ServiceMenuScreen7;
                 servicemenu = 1;
             break;
 
@@ -1814,7 +1814,7 @@ void buttonClass:: back_screen()
 
                 if(dduflag)
                 {
-                    screen = ServiceMenuScreen6;
+                    screen = ServiceMenuScreen7;
                 }
                 else
                 {
@@ -2096,14 +2096,14 @@ void buttonClass::enter_function()
             // -------- SAVE SAFETY TEMPERATURE --------
             case SafteyTemperatureSettings:
                 EEPROM.put(SAFETY_TEMP, Heatersafteytemp);
-                screen=ServiceMenuScreen4;
+                screen=ServiceMenuScreen5;
                 servicemenu=1;
             break;
             
             // -------- SAVE PROBE CALIBRATION --------
             case ProbeCalibrationSettings:
                 EEPROM.put(PROBE_ERROR, temp_error);
-                screen=ServiceMenuScreen5;
+                screen=ServiceMenuScreen6;
                 servicemenu=1;
             break;
             
@@ -2125,7 +2125,7 @@ void buttonClass::enter_function()
 
             case TimeFactorSettings:
                 EEPROM.put(SECONDARY_FILL_TIME, sfill_time);
-                screen=ServiceMenuScreen6;
+                screen=ServiceMenuScreen7;
                 servicemenu=1;
                 
              break;
