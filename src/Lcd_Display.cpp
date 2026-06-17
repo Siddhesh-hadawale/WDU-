@@ -452,12 +452,6 @@ void lcdclass::lcd_display()
                 process_object.boiler_preheat();
             }
 
-            // process_object.error_check();
-            // if(!error_check_flag && !temp_drop_flag)
-            // {
-            //     process_flag=1;
-            //     process_object.process_start();
-            // }
         break;
 
         case PrimaryFillScreen:
@@ -722,11 +716,13 @@ void lcdclass::lcd_display()
                 digitalWrite(BUZZER,LOW);
             }
 
-            if( !error_check_flag && !Secodaryfill_error_flag && !closetap  && 
-                (process_flag || secondarytimerflag || preheat_flag))           // If error is not due to zero calibration or solenoid issue and process is running or secondary timer is running → check for errors continuously
+            if(!Secodaryfill_error_flag && !closetap &&
+               
+            (process_flag || secondarytimerflag || preheat_flag))
             {
-            process_object.error_check();
+                process_object.error_check();
             }
+
         break;
 
         default:
@@ -734,7 +730,6 @@ void lcdclass::lcd_display()
         break;
     }
     
-
 }
 
 lcdclass lcd_object = lcdclass();         

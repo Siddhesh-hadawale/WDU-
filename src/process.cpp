@@ -310,7 +310,7 @@ void process:: error_check()                  // Checks the Error,1)Flow Switch 
 
     else
     {
-        digitalWrite(BUZZER,LOW);
+        // digitalWrite(BUZZER,LOW); 
         // pauseflag=0;
         error_check_flag=0;
     }
@@ -343,7 +343,7 @@ void process:: error_check()                  // Checks the Error,1)Flow Switch 
     }
     else
     {
-        digitalWrite(BUZZER,LOW);
+        // digitalWrite(BUZZER,LOW); 
         // pauseflag=0;
         error_check_flag=0;
     }
@@ -377,6 +377,7 @@ void process:: error_check()                  // Checks the Error,1)Flow Switch 
                 }
                 else
                 {
+                    // digitalWrite(BUZZER,LOW);
                     error_check_flag=0;
                     // pauseflag=0;
                     probeerrorflag=0;   
@@ -461,7 +462,8 @@ void process::water_level_detection()       // Water level Detection Fuction, It
             }
 
             if(millis()-lvl_start>=3000)                  // Added this logic to avoid false triggering of water level error due to water surface turbulence or bubbles during filling which can cause the sensor to read high momentarily even when the water level is sufficient.
-            {   
+            { 
+                digitalWrite(BUZZER,LOW);   // To stop the buzzer if it was triggered due to water level error during filling
                 primary_filling_flag=0;
                 waterlevel_error_flag = 0;
                 pauseflag=0;

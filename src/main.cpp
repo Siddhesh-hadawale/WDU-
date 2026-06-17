@@ -103,16 +103,12 @@ ISR(TCA0_OVF_vect)
 
 /*================ Main Execution Loop ================*/
 void loop() {
-  __builtin_avr_wdr();              // Watchdog timer reset to prevent system reset
+  __builtin_avr_wdr();                // Watchdog timer reset to prevent system reset
 
   lcd_object.lcd_display();           // Update LCD screen
   buttonClass_object.button_ticks();  // Process button events
   buzzerclass_object.buzzer_update(); // Update buzzer state,Secondary heater start and stop ticker
-  // buzzerclass_object.Buzzer_update();
   lcd_object.lcd_blink_update();      // Update LCD blinking during Error page
   process_object.ticker_update();     // Update process-related timers
   PT100_object.read_temperature();    // Read temperature from sensor
-  // Serial3.println("1");
-  
-
 }
