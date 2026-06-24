@@ -121,6 +121,7 @@ extern unsigned long solenoid_stop;
 extern uint8_t skip_count;
 extern uint16_t time_counter2;
 extern int one_second_counter2;
+extern int dryout_fill_time;
 
 
 enum menus

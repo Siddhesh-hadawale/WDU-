@@ -90,10 +90,11 @@ void Override_alert()
             probe_check=0;
             level_check=0;
             flow_check=0;
+            digitalWrite(BUZZER,LOW);
         }
     }
     else{
-        // digitalWrite(BUZZER,LOW);
+        digitalWrite(BUZZER,LOW);
         lcd.setCursor(0,0);
         lcd.print("               ");
         lcd.setCursor(0,1);

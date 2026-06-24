@@ -943,7 +943,7 @@ void buttonClass::increment()
         break;
 
         case TimeFactorSettings:
-            if(sfill_time<= SECONDARY_FILL_TIME_LIMIT)
+            if(sfill_time< SECONDARY_FILL_TIME_LIMIT)
             {
                 sfill_time+=1;
             }
@@ -1570,7 +1570,15 @@ void buttonClass:: user_settings()
         {
             digitalWrite(BUZZER, HIGH);
             delay(100);
+            if(dryout_flag)
+            {
+                one_second_counter = dryout_fill_time - 5;
+
+            }
+            else
+            {
             one_second_counter = pre_end_time - 5; // Jump near end of timer
+            }
             skip_count = 0;                        // Reset counter
             time_skip = 1;                         // Mark skip completed
 
@@ -2149,6 +2157,9 @@ void buttonClass::enter_function()
                     servicemenu=0;
                     lcd.clear();
                     screen=MainScreen;
+                    variant=((prodtype[prodtypecounter])/10);
+                    Max_liter=(optime[optimecounter])*(variant/10.0);
+
 
                 }
                 else                                                 // If reset not confirmed

@@ -55,11 +55,11 @@ bool heater_start=false;   // Counter for consecutive temperature error readings
 #define POWER_DETECTION 5
 #define WATER_LEVEL_SENSOR 4
 
-#define STARTING_DELAY 2000
+#define STARTING_DELAY 2000     // Delay in milliseconds before starting/stopping heaters and contactors to ensure proper operation and avoid electrical issues
 
-#define PREHEAT_TIME 240
+#define PREHEAT_TIME 240         // Time in seconds for preheating the boiler before starting the main process
 // #define PREHEAT_TIME 10
-#define SECONDARY_CHECK_TIME 120
+#define SECONDARY_CHECK_TIME 120   // Secondary boiler filling check time in seconds
 #define OVERRIDE_ALERT_INTERVAL 600  // Time in seconds after which override alert should be triggered during the process if override settings are enabled
 // #define OVERRIDE_ALERT_INTERVAL 60
 
