@@ -60,8 +60,8 @@ bool heater_start=false;   // Counter for consecutive temperature error readings
 #define PREHEAT_TIME 240         // Time in seconds for preheating the boiler before starting the main process
 // #define PREHEAT_TIME 10
 #define SECONDARY_CHECK_TIME 120   // Secondary boiler filling check time in seconds
-#define OVERRIDE_ALERT_INTERVAL 600  // Time in seconds after which override alert should be triggered during the process if override settings are enabled
-// #define OVERRIDE_ALERT_INTERVAL 60
+// #define OVERRIDE_ALERT_INTERVAL 600  // Time in seconds after which override alert should be triggered during the process if override settings are enabled
+#define OVERRIDE_ALERT_INTERVAL 30
 
 // void heat1_start();
 void contact2_start();
@@ -94,19 +94,10 @@ void Change_flag()
 void process:: Check_ticker_stop()
 {
     flag_warning.stop();
+   
+
 
 } 
-// void heat1_start()
-// {
-//     if((process_flag || secondarytimerflag || preheat_flag) && !error_check_flag )
-//         process_object.heater1_start();
-// }
-
-// void heat2_start()
-// {
-//     if((process_flag || secondarytimerflag) && !error_check_flag )
-//         process_object.heater2_start();
-// }
 
 
 void contact2_start()
@@ -298,11 +289,14 @@ void process:: error_check()                  // Checks the Error,1)Flow Switch 
         screen=ErrorScreen;
         if(!error_check_flag)
         {
+            primary_filling_flag=0;                       //**************************************************** */
             error_check_flag=1;
         // process_object.process_stop();
         heater_start=0;
         // process_object.heater1_stop();
         process_object.Contactor1_stop();
+        lcd_object.lcd_buzzer_toggle_start();
+        // Error_buzzer_toggle.start();
         // buzzerclass_object.heater_stop();
         }
         return;
@@ -337,6 +331,7 @@ void process:: error_check()                  // Checks the Error,1)Flow Switch 
         heater_start=0;
         // process_object.heater1_stop();
         process_object.Contactor1_stop();
+        lcd_object.lcd_buzzer_toggle_start();
         // buzzerclass_object.heater_stop();
         }
         return;
@@ -372,6 +367,7 @@ void process:: error_check()                  // Checks the Error,1)Flow Switch 
                         // process_object.heater1_stop();
                         process_object.Contactor1_stop();
                         // buzzerclass_object.heater_stop();
+                       lcd_object.lcd_buzzer_toggle_start();
                     }
                     return;
                 }
@@ -448,8 +444,6 @@ void process::water_level_detection()       // Water level Detection Fuction, It
             // process_flag=0;
             heater_start=0;
             process_object.Contactor1_stop();
-            // process_object.heater1_stop();
-            // waterlevel_error_flag = 1;
         }
 
         else if(digitalRead(WATER_LEVEL_SENSOR) == LOW && primary_filling_flag)
@@ -529,6 +523,7 @@ void process:: dryout_fill()                                                    
                     time_skip=0;
                     dryout_flag=0;
                     heater_start=0;
+                    lcd_object.lcd_buzzer_toggle_start();
                     screen=ErrorScreen;
                     process_object.Contactor1_stop();
                     digitalWrite(SOLENOID1, LOW);  // Close solenoid 1
@@ -684,6 +679,7 @@ void process:: process_start()                    // Process timing funcution
         }
         else
         {
+            lcd_object.lcd_buzzer_toggle_start();
             error_check_flag=1;
             Probe1_Err = 0;
             waterlevel_error_flag = 0;
@@ -692,6 +688,7 @@ void process:: process_start()                    // Process timing funcution
             delay(100);
 
             screen=ErrorScreen;
+
             return;
         }      
     }

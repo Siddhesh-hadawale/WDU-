@@ -7,9 +7,12 @@
 #define GREEN_LED 38
 #define BUZZER 18
 
+#define BUZZER_INTERVAL 60000     //in milliseconds, 60 seconds for buzzer toggle interval
+
 
 
 void toggle_screen();
+void buzzer_toggle();
 LiquidCrystal_I2C lcd(0X27,16,2);
 int screen=0;
 int optimecounter=0;
@@ -18,6 +21,7 @@ int Sec_time=0;
 int remaining_time=0;   
 
 bool toggle=0;
+bool state=1;
 bool dduflag=0;
 bool flow_check=0;
 bool level_check=0;
@@ -36,6 +40,7 @@ float base_calibration[3]={1.4,2.4,3.9};
 
 // Error blinking ticker for main screen
 Ticker error_blink(toggle_screen,500,0,MILLIS);
+Ticker Error_buzzer_toggle(buzzer_toggle,BUZZER_INTERVAL,0,MILLIS);
 
 void Override_alert()
 {
@@ -111,6 +116,23 @@ void toggle_screen()
 {
     toggle=!toggle;
 }
+
+void buzzer_toggle()
+{
+    state=!state;
+}
+void lcdclass::lcd_buzzer_toggle_start()
+{
+    state=1;
+    Error_buzzer_toggle.start();
+}
+
+void lcdclass::lcd_buzzer_toggle_stop()
+{
+    Error_buzzer_toggle.stop();
+    
+}
+
 // -------- LCD INTIALIZATION --------
 void lcdclass::lcd_setup()
 {
@@ -138,6 +160,7 @@ void lcdclass::lcd_setup()
 void lcdclass:: lcd_blink_update()
 {
     error_blink.update();
+    Error_buzzer_toggle.update();
 
 }
 
@@ -588,24 +611,23 @@ void lcdclass::lcd_display()
             // Serial3.println(error_check_flag);
             if(error_check_flag)
             {
+                if(state)
+                {
+                    digitalWrite(BUZZER,HIGH);
+                }
+                else
+                {
+                    digitalWrite(BUZZER,LOW);
+                }
+                // buzzerclass_object.Buzzer_beep(500);
+                // buzzerclass_object.Buzzer_start();
             
                 digitalWrite(RED_LED,LOW);
                 if(toggle)
                 {
-                    // if(zero_calib)                               // If error due to zero calibration
-                    // {
-                    //     digitalWrite(BUZZER,HIGH);
-                    //     digitalWrite(YELLOW_LED,HIGH);
-                    //     lcd.setCursor(0,0);
-                    //     lcd.print(" CALIB MISSING!     ");
-                    //     lcd.setCursor(0,1);
-                    //     lcd.print("SET CALIBRATION   ");
-                        
-                    // }
-
                     if(closetap)                   // Solenoid Error
                     {
-                        digitalWrite(BUZZER,HIGH);
+                        // digitalWrite(BUZZER,HIGH);
                         digitalWrite(YELLOW_LED,HIGH);
                         lcd.setCursor(0,0);
                         // lcd.print("PROCESS COMPLETE    ");
@@ -618,7 +640,7 @@ void lcdclass::lcd_display()
 
                     if(Secodaryfill_error_flag)
                     {
-                        digitalWrite(BUZZER,HIGH);
+                        // digitalWrite(BUZZER,HIGH);
                         digitalWrite(YELLOW_LED,HIGH);
                         lcd.setCursor(0,0);
                         lcd.print("SECONDARY BOILER ");
@@ -628,7 +650,7 @@ void lcdclass::lcd_display()
 
                     if(flow_error_checkflag)      // If error due to flow issue
                     {
-                        digitalWrite(BUZZER,HIGH);
+                        // digitalWrite(BUZZER,HIGH);
                         digitalWrite(YELLOW_LED,HIGH);
                         lcd.setCursor(0,0);
                         lcd.print("NO WATER SUPPLY  ");
@@ -652,7 +674,7 @@ void lcdclass::lcd_display()
 
                     if(waterlevel_error_flag  && !flow_error_checkflag)            // If error due to water level issue
                     {
-                        digitalWrite(BUZZER,HIGH);
+                        // digitalWrite(BUZZER,HIGH);
                         digitalWrite(YELLOW_LED,HIGH);
                         lcd.setCursor(0,0);
                         lcd.print("  CHECK WATER ");
@@ -661,7 +683,7 @@ void lcdclass::lcd_display()
                     }
                     if(Probe1_Err && !flow_error_checkflag && !waterlevel_error_flag)             // If error due to temperature probe issue
                     {
-                        digitalWrite(BUZZER,HIGH);
+                        // digitalWrite(BUZZER,HIGH);
                         digitalWrite(YELLOW_LED,HIGH);
                         lcd.setCursor(0,0);
                         lcd.print("  PROBE  ERROR    ");
@@ -682,6 +704,8 @@ void lcdclass::lcd_display()
             }
             else
             {
+                Error_buzzer_toggle.stop();
+                
     
                 lcd.clear();
                 pauseflag=0;

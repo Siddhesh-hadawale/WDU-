@@ -26,16 +26,17 @@ eepromclass::eepromclass()
 void eepromclass::eeprom_defaultvalue()                 // Factory Reset Condition
 {
     counter=0.0;
-    dduflag=0;
-    prodtypecounter=0;
+    // dduflag=0;
+    // prodtypecounter=0;
     secondaryyes = 1;          // Secondary fill option enable/disable
-    calibration_value=1.4;    // Calibration value for 1.5L product, default product
+    // calibration_value=1.4;    // Calibration value for 1.5L product, default product
+    calibration_value=base_calibration[prodtypecounter];
     solenoidoverride=1;
     flowoverride=0;
     leveloverride=0;
     probeoverride=0;
     Heatersafteytemp=75;
-    sfill_time=40;
+    // sfill_time=40;
     optimecounter=0;
     calib_Heater1=0.0;
     temp_error=0.0;

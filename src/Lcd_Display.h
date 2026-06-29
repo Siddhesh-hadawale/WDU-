@@ -14,6 +14,8 @@ class lcdclass
     void lcd_setup();
     void lcd_blink_update();
     void lcd_display();
+    void lcd_buzzer_toggle_start();
+    void lcd_buzzer_toggle_stop();
 
 
 };

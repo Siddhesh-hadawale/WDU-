@@ -1841,6 +1841,7 @@ void buttonClass::enter_function()
         lcd.clear();
         error_check_flag=0;
         closetap=0;
+        lcd_object.lcd_buzzer_toggle_stop();
         return;
     }
 
@@ -1849,6 +1850,7 @@ void buttonClass::enter_function()
         lcd.clear();
         error_check_flag=0;
         Secodaryfill_error_flag=0;
+        lcd_object.lcd_buzzer_toggle_stop();
         return;
     }
 
